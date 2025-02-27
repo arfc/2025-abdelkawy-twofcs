@@ -1,11 +1,10 @@
-# ans-abs-template
+##2025 Samar's TwoFCS
 
-Template for the American Nuclear Society Annual Meeting, Winter Meeting, and 
-Student Conference abstracts.
+This repository hold the templates used for Samar's Two FCS 2025 Conference Abstract.
 
 
-### Instructions
-1. Update all ``FIXME`` items.
+# Instructions
+1. Update your work.
 2. Building
 - To build on a Linux machine run ``make``.
 - To build on a Windows machine run
