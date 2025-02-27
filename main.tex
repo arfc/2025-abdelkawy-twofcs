@@ -1,56 +1,217 @@
 \documentclass{anstrans}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{FIXME: Abstract Title}
-\author{FIXME: Authors}
+\title{Replicating and Evaluating A Deep Larning Approach to Nuclear Fuel Transmutation in a Fuel Cycle Simulator}
+\author{Samar E. Abdelkawy, Kathryn D. Huff}
 
 \institute{
-Dept. of Nuclear, Plasma and Radiological Engineering, University of Illinois at Urbana-Champaign \\
-FIXME: Your email
-}
+Advanced Reactors and Fuel Cycles Group, University of Illinois,
+Urbana, IL, selsafy2@illinois.edu}
+
+
+% Optional disclaimer: remove this command to hide
+% \disclaimer{Notice: this manuscript is a work of fiction. Any resemblance to
+% actual articles, living or dead, is purely coincidental.}
 
 %%%% packages and definitions (optional)
 \usepackage{graphicx} % allows inclusion of graphics
-\graphicspath{{./figures/}}
-\usepackage{float}
 \usepackage{booktabs} % nice rules (thick lines) for tables
 \usepackage{microtype} % improves typography for PDF
-\usepackage{xspace}
-\usepackage{tabularx}
-\usepackage{amsmath}
-\usepackage{subcaption}
-\usepackage{enumitem}
-\usepackage{placeins}
-\usepackage{tikz}
-\usepackage{hyperref}
-\usetikzlibrary{shapes.geometric, arrows}
 \usepackage[acronym,toc]{glossaries}
-\include{acros}
-\makeglossaries
+\include{../acros}
 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{array}
+
+\usepackage{xspace}
+\usepackage{multirow}
+
+\newcommand{\cycamore}{\textsc{Cycamore}\xspace}
+\newcommand{\cyclus}{\textsc{Cyclus}\xspace}
+\newcommand{\SN}{S$_N$}
+\renewcommand{\vec}[1]{\bm{#1}} %vector is bold italic
+\newcommand{\vd}{\bm{\cdot}} % slightly bold vector dot
+\newcommand{\grad}{\vec{\nabla}} % gradient
+\newcommand{\ud}{\mathop{}\!\mathrm{d}} % upright derivative symbol
 
 \begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+The nuclear fuel cycle is fundamental to nuclear energy production and reactor operations. Understanding the fuel cycle is essential for assessing how different enrichments and burnups affect the isotopic composition of spent nuclear fuel (SNF), including its concentration of various isotopes and decay heat. These factors play a crucial role in determining appropriate strategies for SNF management, including storage, reprocessing, or disposal. Optimizing these processes requires accurate depletion modeling to inform decision-making on waste handling and potential resource utilization\cite{yacout_modeling_2005}.
+
+This work replicates the study conducted by Bae et al. (2020)\cite{bae_deep_2020}, where the authors trained a neural network model on the Unified Database (UDB)\cite{peterson_used_2013} for Pressurized Water Reactor (PWR) Mixed Oxide (MOX) fuel with varying enrichments and burnups. Their results demonstrated that the model provided a balance between fidelity and computational efficiency compared to other nuclear fuel cycle simulators. However, since the UDB has since been updated, there is an opportunity to validate their approach using new data. Bae et al. noted that, ideally, their model should be tested against a dataset it was not trained on, but this was not feasible at the time, leading them to validate the model using a subset of their training data. In this study, we implement their trained neural network model within the CYCLUS framework and evaluate its performance using the updated dataset. This allows us to assess whether the model still outperforms traditional recipe-based methods in fuel cycle simulations.
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{introduction}
+\section{\cyclus}
+
+CYCLUS \cite{huff_fundamental_2016} is an open-source, agent-based nuclear fuel cycle (NFC) simulation framework designed for flexibility and extensibility. Unlike traditional simulators that rely on fixed system models, CYCLUS treats each facility—such as reactors, enrichment plants, and storage sites—as independent agents that interact dynamically. These agents operate under predefined rules, exchanging materials through a market-based mechanism called the Dynamic Resource Exchange \cite{gidden_methodology_2016}.
+
+A key strength of CYCLUS is its modular architecture, which allows users to define and deploy custom facility models, known as archetypes, implemented in C++ or Python. Standard NFC processes, such as enrichment, reprocessing, and storage, are available in the Cycamore\cite{carlsen_cycamore_2014} repository, while additional community-developed archetypes extend its capabilities for specialized applications, including spent fuel transmutation and diversion modeling. This modularity enables CYCLUS to simulate a wide range of NFC scenarios, making it a powerful tool for analyzing the impact of policy decisions, technology changes, and resource availability on nuclear energy systems.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Unified Database}
+\section{Acknowledgments}
+% \begin{figure}[!htbp]
+%   \centering
+%   \includegraphics[width=0.4\textwidth]{../images/cyclus_logo.png}
+%   \label{fig:cyclus_logo}
+% \end{figure}
+
+
+% \begin{algorithm}
+% \caption{Greedy Reactor Deployment Algorithm}
+% \begin{algorithmic}[1]
+%     \State Initialize demand
+%     \While{demand exists}
+%         \State Select the largest reactor that does not exceed demand
+%         \State Deploy reactors until the next reactor exceeds demand
+%         \State Update demand
+%     \EndWhile
+% \end{algorithmic}
+% \end{algorithm}
+
+% \begin{algorithm}
+%   \caption{Random Reactor Deployment Algorithm}
+%   \begin{algorithmic}[1]
+%       \State Initialize demand
+%       \While{demand exists}
+%           \State Randomly deploy a reactor that does not exceed demand
+%           \State Update demand
+%       \EndWhile
+%   \end{algorithmic}
+%   \end{algorithm}
+
+%   \begin{algorithm}
+%     \caption{Random + Greedy Reactor Deployment Algorithm}
+%     \begin{algorithmic}[1]
+%         \State Initialize demand
+%         \While{demand exists}
+%             \State Randomly deploy a reactor
+%             \If{demand is exceeded}
+%                 \State Remove last reactor
+%                 \If{demand still exists}
+%                     \State Select the largest reactor that does not exceed demand
+%                     \State Deploy until the next reactor exceeds demand
+%                     \State Update demand
+%                 \EndIf
+%             \EndIf
+%         \EndWhile
+%     \end{algorithmic}
+%     \end{algorithm}
+
+% \begin{subequations} \label{eqs:fullTransport}
+% \begin{multline} \label{eq:fullTransportVol}
+%   \vec{\Omega}\vd \grad \psi(\vec{x}, \vec{\Omega})
+%   + \sigma(\vec{x}) \psi (\vec{x}, \vec{\Omega})
+% \\ =
+%   \frac{\sigma_s(\vec{x})}{4\pi} \int_{4\pi} \psi(\vec{x},\vec{\Omega}')
+%   \ud\Omega' + \frac{q(\vec{x})}{4\pi}
+%   \equiv \frac{1}{4\pi} Q(\vec{x}) \,,
+% \end{multline}
+% inside $\vec{x} \in V$, $\vec{\Omega} \in 4\pi$, with an incident boundary
+% condition
+% \begin{equation} \label{eq:fullTransportBndy}
+%   \psi(\vec{x}, \vec{\Omega}) = \psi^b(\vec{x}, \vec{\Omega}) \,,
+%  \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0\,.
+% \end{equation}
+% \end{subequations}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{motivation}
+% \section{Results and Analysis}
+% Table \ref{tab:enrichment_levels} shows the various levels of enrichment for uranium that we will use in this work.
+
+% \begin{table}[!htbp]
+%    \centering
+%    \caption{Enrichment levels and their ranges.}
+%    \label{tab:enrichment_levels}
+%    \begin{tabular}{c c}
+%       \hline
+%       \textbf{Enrichment Level} & \textbf{Range [\%  $^{235}$U]} \\
+%       \hline
+%       Natural & < 0.711 \\
+%       \gls{leu} & 0.711-5 \\
+%       \gls{leup} & 5-10 \\
+%       \gls{haleu} & 10-20 \\
+%       % \gls{heu} & $\geq$ 20  \\
+%       \hline
+%    \end{tabular}
+% \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{background}
+% \subsection{Subsection Goes Here (Heading B)}
+% The user must manually capitalize initial letters of a subsection heading.
+
+% For those who like equations in their papers, \LaTeX\ is a good choice. Here is
+% an equation for the Marshak diffusion boundary condition:
+% \begin{equation} \label{eq:marshak}
+%   4 J^- = \phi + 2 D \vec{n} \vd \grad \phi \,.
+% \end{equation}
+% If we so choose, we can effortlessly reference the equation later.
+
+% Another paragraph starts with Eq.~\eqref{eq:marshak} and sets $J^-$ to zero, a
+% vacuum boundary condition:
+% \begin{equation*}
+%   0 = \phi + \frac{2}{3} \frac{1}{\sigma} \vec{n} \vd \grad \phi \,.
+% \end{equation*}
+% The extrapolation distance is $2/3$. A more detailed asymptotic analysis yields
+% an extrapolation distance of about $0.71045$.
+
+
+
+% Later on, we can include a table, even one that spans two columns such as
+% Table~\ref{tab:widetable}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{table*}[htb]
+%   \centering
+%   \caption{Example of a Really Wide Table that Might Not Normally Fit in the Document}
+%   \begin{tabular}{llllllllll}\toprule
+%       & $\phi_T(0)$      & $\phi_T(10)$      & $\phi_T(20)$      &
+%       $\phi_D(0)$      & $\phi_D(10)$      & $\phi_D(20)$      & $\rho$      &
+%       $\varepsilon$      & $N_\text{it}$
+% \\ \midrule
+% $c=0.999$  & 0.9038 & 20.63 & 31.24 & 0.9087 & 20.63 & 31.23 & 0.2192 & $10^{-7}$ & 15
+% \\
+% $c=0.990$  & 0.3675 & 13.04 & 24.7 & 0.3696 & 13.04 & 24.69 & 0.2184 & $10^{-7}$ & 15
+% \\
+% $c=0.900$  & 0.009909 & 4.776 & 17.64 & 0.009984 & 4.786 & 17.63 & 0.2118 & $10^{-7}$ & 14
+% \\
+% $c=0.500$  & $6.069\times 10^{-5}$ & 2.212 & 15.53 & 6.213$\times 10^{-5}$ & 2.239 & 15.53 & 0.2068 & $10^{-7}$ & 13
+% \\
+% \bottomrule
+% \end{tabular}
+%   \label{tab:widetable}
+% \end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Notice how the table reference uses a Roman numeral
+% for its numbering scheme, whereas the figure reference uses an Arabic numeral.
+% For one-column tables, use the \verb|table| environment; two-column tables use
+% \verb|table*|. The same applies to figures.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{methodology}
+% \section{Conclusions (Heading A)}
+
+% The included ANS style file and this clear example file are a panacea for
+% the hours of headache that invariably results from formatting a document in
+% Microsoft Word.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{results}
+\appendix
+% \section{Appendix}
+
+% Numbering in the appendix is different:
+% \begin{equation} \label{eq:appendix}
+%   2 + 2 = 5\,.
+% \end{equation}
+% and another equation:
+% \begin{equation} \label{eq:appendix2}
+%   a + b = c\,.
+% \end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{conclusions}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{acknowledgements}
-
+%\section{Acknowledgments}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{ans}
