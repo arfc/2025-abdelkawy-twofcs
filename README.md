@@ -1,4 +1,4 @@
-##2025 Samar's TwoFCS
+## 2025 Samar's TwoFCS
 
 This repository hold the templates used for Samar's Two FCS 2025 Conference Abstract.
 
