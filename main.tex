@@ -1,6 +1,6 @@
 \documentclass{anstrans}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Updating and Verifying A Deep Larning Approach to Nuclear Fuel Transmutation in Cyclus}
+\title{Updating and Validating A Deep Larning Approach to Nuclear Fuel Transmutation in Cyclus}
 \author{Samar E. Abdelkawy, Kathryn D. Huff}
 
 \institute{
@@ -37,9 +37,9 @@ Urbana, IL, selsafy2@illinois.edu}
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-The nuclear fuel cycle is fundamental to nuclear energy production and reactor operations. Understanding the fuel cycle is essential for assessing how different enrichments and burnups affect the isotopic composition of spent nuclear fuel (SNF), including its concentration of various isotopes and decay heat. These factors play a crucial role in determining appropriate strategies for SNF management strategies, including storage, reprocessing, or disposal. Optimizing these processes requires accurate depletion modeling to inform decision-making on waste handling and potential resource utilization\cite{yacout_modeling_2005}.
+Different enrichments and burnups affect the isotopic composition of spent nuclear fuel (SNF), including its concentration of various isotopes and decay heat. These factors play a crucial role in determining appropriate SNF management strategies, including storage, reprocessing, or disposal. Optimizing these processes requires accurate depletion modeling to inform decision-making on waste handling and potential resource utilization \cite{yacout_modeling_2005}. A better understanding of these factors helps to model the fuel cycle more accurately, enabling better predictions and management strategies.
 
-This work reproduces and further validates the study conducted by Bae et al. (2020)\cite{bae_deep_2020}, where the authors trained a neural network model on the Unified Database (UDB) for Pressurized Water Reactor (PWR) Uranium Oxide (UOX) fuel with varying enrichments and burnups. Their results demonstrated that the model provided a balance between fidelity and computational efficiency compared to other nuclear fuel cycle simulators. However, with the release of \cyclus version 1.6.0, there is a need update the archetype developed by Bae et al. to ensure compatibility and enable further research applications.
+This work reproduces and further validates the study conducted by Bae et al. (2020) \cite{bae_deep_2020}, where the authors trained a neural network model on the Unified Database (UDB) for Pressurized Water Reactor (PWR) Uranium Oxide (UOX) fuel with varying enrichments and burnups. Their results demonstrated that the model provided a balance between fidelity and computational efficiency compared to other nuclear fuel cycle simulators. However, with the release of \cyclus version 1.6.0, there is a need update the archetype developed by Bae et al. to ensure compatibility and enable further research applications.
 
 
 Additionally, since the UDB has been updated, this presents an opportunity to validate the neural network model using new data. Bae et al. noted that, ideally, their model should be tested against a dataset independent from the data it was trained on, but this was not feasible at the time, leading them to validate the model using a subset of their training data. Therefore, a second goal in this study is to integrate their trained neural network model within the \cyclus framework and evaluate its performance using the updated UDB. This allows us to assess whether the model continues to outperform traditional recipe-based methods in fuel cycle simulations.
@@ -56,7 +56,7 @@ A key strength of \cyclus is its modular architecture, which allows users to def
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Unified Database}
 
-The Unified Database (UDB) is part of the Used Nuclear Fuel Storage, Transportation & Disposal Analysis Resource and Data System (UNF-ST\&DARDS), developed by Oak Ridge National Laboratory (ORNL) \cite{peterson_used_2013}. It serves as a comprehensive, controlled source of spent nuclear fuel (SNF) data, including dry cask attributes, assembly details, economic factors, transportation logistics, and federal waste management considerations. Assembly-specific parameters include initial enrichment, burnup, metric tons of heavy metal (MTHM), assembly type, and discharge date \cite{peterson_fuel_2015}. The database was generated using irradiation and decay calculations performed with SCALE \cite{bowman_scale_2011}, providing mass, heat, and activity estimates for each assembly.
+The Unified Database (UDB) is part of the Used Nuclear Fuel Storage, Transportation and Disposal Analysis Resource and Data System (UNF-ST\&DARDS), developed by Oak Ridge National Laboratory (ORNL) \cite{peterson_used_2013}. It serves as a comprehensive, controlled source of spent nuclear fuel (SNF) data, including dry cask attributes, assembly details, economic factors, transportation logistics, and federal waste management considerations. Assembly-specific parameters include initial enrichment, burnup, metric tons of heavy metal (MTHM), assembly type, and discharge date \cite{peterson_fuel_2015}. The database was generated using irradiation and decay calculations performed with SCALE \cite{bowman_scale_2011}, providing mass, heat, and activity estimates for each assembly.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgments}
